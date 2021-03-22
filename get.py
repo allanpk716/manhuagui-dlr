@@ -1,15 +1,19 @@
 # Development by HSSLCreative
 # Date: 2020/5/6
 
-import requests, re, lzstring
+import requests
+import re
+import lzstring
 from parse import packed
+from proxyinfo import getProxyDic
 
 lz = lzstring.LZString()
+
 
 def get(url):
     print('connecting...')
     try:
-        res = requests.get(url)
+        res = requests.get(url, proxies=getProxyDic())
     except:
         print('%s取得失敗' % url)
         return False

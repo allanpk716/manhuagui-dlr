@@ -1,22 +1,28 @@
 # Development by HSSLCreative
 # Date: 2020/5/6
 
-import re, time, bs4, requests, lzstring
+import re
+import time
+import bs4
+import requests
+import lzstring
 from download import downloadCh
 from generate_config import generate_config
+from proxyinfo import getProxyDic
 
 check_re = r'^https?://([a-zA-Z0-9]*\.)?manhuagui\.com/comic/([0-9]+)/?'
 request_url = 'https://tw.manhuagui.com/comic/%s'
 host = 'https://tw.manhuagui.com'
 
-def main():
-    print('僅供學術研究交流使用，勿作為商業用途')
+
+def Process(dlroot):
+
     while True:
         print('輸入URL:')
-        #格式:https://*.manhuagui.com/comic/XXXXX
-        #是否進入章節都沒關係
-        #例如https://*.manhuagui.com/comic/XXXXX/XXXXX.html也行
-        #反正要得只有id
+        # 格式:https://*.manhuagui.com/comic/XXXXX
+        # 是否進入章節都沒關係
+        # 例如https://*.manhuagui.com/comic/XXXXX/XXXXX.html也行
+        # 反正要得只有id
         url = input()
         try:
             checked_id = re.match(check_re, url).group(2)
@@ -25,7 +31,7 @@ def main():
             print('無效的網址')
             continue
     try:
-        res = requests.get(request_url % checked_id)
+        res = requests.get(request_url % checked_id, proxies=getProxyDic())
         res.raise_for_status()
     except:
         print('錯誤:可能是沒網路或被ban ip?')
@@ -74,16 +80,15 @@ def main():
         block = ch_list[area[0]:area[1]+1]
         for ch in block:
             if not config_writed:
-                downloadCh(host + ch[1], config_json)
+                downloadCh(dlroot, host + ch[1], config_json)
             else:
-                downloadCh(host + ch[1])
+                downloadCh(dlroot, host + ch[1])
                 config_writed = True
             print('延遲5秒...')
-            #每話間隔5秒
+            # 每話間隔5秒
             time.sleep(5)
-main()
 
-#各話間會延遲5秒 各頁間會延遲1秒
-#防止被ban ip
-#目前延遲數值是保守值 可自行依注解更改
-#反正執行後就能afk了
+
+if __name__ == "__main__":
+    downloadRootPath = "x:\\"
+    Process(downloadRootPath)

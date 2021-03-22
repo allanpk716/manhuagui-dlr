@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+beautifulsoup4 = {version = "*", index = "https://pypi.tuna.tsinghua.edu.cn/simple"}
+pillow = {version = "*", index = "https://pypi.tuna.tsinghua.edu.cn/simple"}
+requests = {version = "*", index = "https://pypi.tuna.tsinghua.edu.cn/simple"}
+lzstring = {version = "*", index = "https://pypi.tuna.tsinghua.edu.cn/simple"}
+
+[dev-packages]
+autopep8 = "*"
+rope = "*"
+
+[requires]
+python_version = "3.9"
