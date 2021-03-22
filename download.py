@@ -21,7 +21,10 @@ def downloadPg(dlRootPath, dlEpisodePath, url, e, m, counter):
          'sec-fetch-mode': 'no-cors',
          'sec-fetch-site': 'cross-site',
          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'}
-    # 这里进行修改，下载先到一个缓存的目录，然后再放到 raw 中，执行后续的流程
+    # 这里进行修改，下载先到一个缓存的目录
+    tmpDownloadPath = os.path.join(dlRootPath, 'TmpDownload')
+    if os.path.exists(tmpDownloadPath) == False:
+        os.mkdir(tmpDownloadPath)
     # 这样的好处是一开始判断总张数的逻辑才是真正有意义的
     tmp_fileName = os.path.join(dlRootPath, 'TmpDownload', "tmpPic.tmp")
     # 提前判断是否需要下载这一页
