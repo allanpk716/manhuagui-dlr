@@ -34,11 +34,11 @@ def downloadPg(comicNameAndEpisode, dlRootPath, dlEpisodePath, url, e, m, counte
     output_filename = str(counter) + '.jpg'
     # 这里是 jpg 文件夹下载的存储名称
     jpg_src_filename = os.path.join(dlEpisodePath, output_filename)
-    # 标志位
-    bJpgFileExsit = False
+
     # 判断 jpg 的文件已经存在
     if os.path.exists(jpg_src_filename) == True and os.path.isfile(jpg_src_filename) == True:
-        bJpgFileExsit = True
+        print("已下载")
+        return
 
     # 單頁最大重試次數
     for i in range(20):
