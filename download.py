@@ -7,10 +7,11 @@ import time
 import re
 from get import get
 from proxyinfo import getProxyDic
+from barknotify import BarkNotify
 from PIL import Image
 
 
-def downloadPg(dlRootPath, dlEpisodePath, url, e, m, counter):
+def downloadPg(comicNameAndEpisode, dlRootPath, dlEpisodePath, url, e, m, counter):
     h = {'accept': 'image/webp,image/apng,image/*,*/*;q=0.8',
          'accept-encoding': 'gzip, deflate, br',
          'accept-language': 'zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6',
@@ -29,8 +30,8 @@ def downloadPg(dlRootPath, dlEpisodePath, url, e, m, counter):
     tmp_fileName = os.path.join(dlRootPath, 'TmpDownload', "tmpPic.tmp")
     # 提前判断是否需要下载这一页
     # 这里是 raw 文件夹存储的文件名
-    picfilename = str(counter) + '_' + os.path.basename(url)
-    output_filename = picfilename + '.jpg'
+    # str(counter).zfill(4)
+    output_filename = str(counter) + '.jpg'
     # 这里是 jpg 文件夹下载的存储名称
     jpg_src_filename = os.path.join(dlEpisodePath, output_filename)
     # 标志位
@@ -62,6 +63,8 @@ def downloadPg(dlRootPath, dlEpisodePath, url, e, m, counter):
         # 轉檔結束
         return
     print('超過最大重試次數（20） 跳過此檔案')
+    # XX漫画_第几话_1页 错误
+    BarkNotify(comicNameAndEpisode + "_" + str(counter), True)
 
 
 def downloadCh(dlRootPath, url, config_json=None):
@@ -72,8 +75,11 @@ def downloadCh(dlRootPath, url, config_json=None):
     episodeName = j['cname']
     # 极黑的布伦希尔德\\jpg\\特别篇
     comicName = re.sub(r'[\\/:*?"<>|]', '_', bname)
+    nowComicFolder = os.path.join(dlRootPath, comicName)
+    if os.path.exists(nowComicFolder) == False:
+        os.mkdir(nowComicFolder)
     # 写配置文件
-    configFullName = os.path.join(dlRootPath, comicName, 'config.json')
+    configFullName = os.path.join(nowComicFolder, 'config.json')
     if config_json:
         with open(configFullName, 'w') as config:
             config.write(config_json)
@@ -99,7 +105,7 @@ def downloadCh(dlRootPath, url, config_json=None):
         pgUrl = 'https://i.hamreus.com' + path + filename
         print(os.path.basename(pgUrl))
         print('%s / %s' % (i, length), end='\r')
-        downloadPg(dlRootPath, desDownloadEpisodeFolderPath, pgUrl, e, m, i)
+        downloadPg(comicName + "_" + episodeName, dlRootPath, desDownloadEpisodeFolderPath, pgUrl, e, m, i)
         # 每頁間隔0.5秒
         time.sleep(0.5)
         i += 1
