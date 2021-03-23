@@ -1,24 +1,13 @@
 # manhuagui-dlr
 
-純Python製作，執行過程不需要任何外部JS環境
+进行大比较大的魔改。
 
-包含自動webp->jpg，可選
+根据原版，重构了一些细节，以便于能够更容易追漫使用。
 
-初始化完後就能完全放置，過程中只有主控台視窗，可以繼續使用電腦不受影響
+支持：设置代理、错误和完成时使用 Bark 通知。
 
-執行完後可參考[這裡](https://github.com/HSSLC/kc-generator)做下一步處理
+使用的时候，参考 main.py 的实例，记得修改 proxyinfo.py 以及 barknotify.py 中的信息。
 
-required:  
-* lzstring
-* requests
-* Pillow
-* BeautifulSoup4
+Bark 没得也能用，不改即可。
 
-僅供學術研究交流使用，勿作為商業用途
-
-
-# 附註
-程式隨便拿沒關係，但不要把他當成自己原創的，謝謝
-
-# 更多資訊
-https://incognitas.net/works/downloader-1
+感谢原作者，有下载逻辑的更新见原分支。
